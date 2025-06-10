@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "market-implied-macro-engine"
+version = "0.1.0"
+description = "Extract market-implied macro expectations from prediction markets, compute surprises, and test cross-asset reactions"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "Quant Research"}]
+
+dependencies = [
+    "numpy>=1.24",
+    "pandas>=2.0",
+    "scipy>=1.10",
+    "pyyaml>=6.0",
+    "python-dotenv>=1.0",
+    "requests>=2.31",
+    "pydantic>=2.0",
+]
+
+[project.optional-dependencies]
+fred = ["fredapi>=0.5"]
+yfinance = ["yfinance>=0.2"]
+bls = ["bls>=0.3"]
+dev = [
+    "pytest>=7.4",
+    "pytest-cov>=4.1",
+    "mypy>=1.5",
+    "ruff>=0.1",
+    "types-pyyaml",
+    "types-requests",
+]
+notebook = ["jupyter", "matplotlib", "seaborn", "plotly"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["macro_engine*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+
+[tool.mypy]
+strict = false
+python_version = "3.10"
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
