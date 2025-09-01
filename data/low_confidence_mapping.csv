@@ -1,0 +1,178 @@
+market_ticker,market_title,event_id,event_type,confidence_score,mapping_method
+FOMC0_24JAN,Will Fed Rate be between 2.0% and 3.0%?,FOMC_20200129,FOMC,0.335,regex
+FOMC1_24JAN,Will Fed Rate be between 3.0% and 4.0%?,FOMC_20200129,FOMC,0.335,regex
+FOMC2_24JAN,Will Fed Rate be between 4.0% and 5.0%?,FOMC_20200129,FOMC,0.335,regex
+FOMC0_24FEB,Will Fed Rate be between 2.0% and 3.0%?,FOMC_20200129,FOMC,0.335,regex
+FOMC1_24FEB,Will Fed Rate be between 3.0% and 4.0%?,FOMC_20200129,FOMC,0.335,regex
+FOMC2_24FEB,Will Fed Rate be between 4.0% and 5.0%?,FOMC_20200129,FOMC,0.335,regex
+FOMC0_24MAR,Will Fed Rate be between 2.0% and 3.0%?,FOMC_20200129,FOMC,0.335,regex
+FOMC1_24MAR,Will Fed Rate be between 3.0% and 4.0%?,FOMC_20200129,FOMC,0.335,regex
+FOMC2_24MAR,Will Fed Rate be between 4.0% and 5.0%?,FOMC_20200129,FOMC,0.335,regex
+FOMC0_24APR,Will Fed Rate be between 2.0% and 3.0%?,FOMC_20200129,FOMC,0.335,regex
+FOMC1_24APR,Will Fed Rate be between 3.0% and 4.0%?,FOMC_20200129,FOMC,0.335,regex
+FOMC2_24APR,Will Fed Rate be between 4.0% and 5.0%?,FOMC_20200129,FOMC,0.335,regex
+FOMC0_24MAY,Will Fed Rate be between 2.0% and 3.0%?,FOMC_20200129,FOMC,0.335,regex
+FOMC1_24MAY,Will Fed Rate be between 3.0% and 4.0%?,FOMC_20200129,FOMC,0.335,regex
+FOMC2_24MAY,Will Fed Rate be between 4.0% and 5.0%?,FOMC_20200129,FOMC,0.335,regex
+FOMC0_24JUL,Will Fed Rate be between 2.0% and 3.0%?,FOMC_20200129,FOMC,0.335,regex
+FOMC1_24JUL,Will Fed Rate be between 3.0% and 4.0%?,FOMC_20200129,FOMC,0.335,regex
+FOMC2_24JUL,Will Fed Rate be between 4.0% and 5.0%?,FOMC_20200129,FOMC,0.335,regex
+FOMC0_24AUG,Will Fed Rate be between 2.0% and 3.0%?,FOMC_20200129,FOMC,0.335,regex
+FOMC1_24AUG,Will Fed Rate be between 3.0% and 4.0%?,FOMC_20200129,FOMC,0.335,regex
+FOMC2_24AUG,Will Fed Rate be between 4.0% and 5.0%?,FOMC_20200129,FOMC,0.335,regex
+FOMC0_24SEP,Will Fed Rate be between 2.0% and 3.0%?,FOMC_20200129,FOMC,0.335,regex
+FOMC1_24SEP,Will Fed Rate be between 3.0% and 4.0%?,FOMC_20200129,FOMC,0.335,regex
+FOMC2_24SEP,Will Fed Rate be between 4.0% and 5.0%?,FOMC_20200129,FOMC,0.335,regex
+FOMC0_24OCT,Will Fed Rate be between 2.0% and 3.0%?,FOMC_20200129,FOMC,0.335,regex
+FOMC1_24OCT,Will Fed Rate be between 3.0% and 4.0%?,FOMC_20200129,FOMC,0.335,regex
+FOMC2_24OCT,Will Fed Rate be between 4.0% and 5.0%?,FOMC_20200129,FOMC,0.335,regex
+FOMC0_24NOV,Will Fed Rate be between 2.0% and 3.0%?,FOMC_20200129,FOMC,0.335,regex
+FOMC1_24NOV,Will Fed Rate be between 3.0% and 4.0%?,FOMC_20200129,FOMC,0.335,regex
+FOMC2_24NOV,Will Fed Rate be between 4.0% and 5.0%?,FOMC_20200129,FOMC,0.335,regex
+FOMC0_24DEC,Will Fed Rate be between 2.0% and 3.0%?,FOMC_20200129,FOMC,0.335,regex
+FOMC1_24DEC,Will Fed Rate be between 3.0% and 4.0%?,FOMC_20200129,FOMC,0.335,regex
+FOMC2_24DEC,Will Fed Rate be between 4.0% and 5.0%?,FOMC_20200129,FOMC,0.335,regex
+NONFARM0_24JAN,Will Nonfarm Payrolls be between 2.0% and 3.0%?,NFP_20200110,NFP,0.255,regex
+NONFARM1_24JAN,Will Nonfarm Payrolls be between 3.0% and 4.0%?,NFP_20200110,NFP,0.255,regex
+NONFARM2_24JAN,Will Nonfarm Payrolls be between 4.0% and 5.0%?,NFP_20200110,NFP,0.255,regex
+NONFARM0_24FEB,Will Nonfarm Payrolls be between 2.0% and 3.0%?,NFP_20200110,NFP,0.255,regex
+NONFARM1_24FEB,Will Nonfarm Payrolls be between 3.0% and 4.0%?,NFP_20200110,NFP,0.255,regex
+NONFARM2_24FEB,Will Nonfarm Payrolls be between 4.0% and 5.0%?,NFP_20200110,NFP,0.255,regex
+NONFARM0_24MAR,Will Nonfarm Payrolls be between 2.0% and 3.0%?,NFP_20200110,NFP,0.255,regex
+NONFARM1_24MAR,Will Nonfarm Payrolls be between 3.0% and 4.0%?,NFP_20200110,NFP,0.255,regex
+NONFARM2_24MAR,Will Nonfarm Payrolls be between 4.0% and 5.0%?,NFP_20200110,NFP,0.255,regex
+NONFARM0_24APR,Will Nonfarm Payrolls be between 2.0% and 3.0%?,NFP_20200110,NFP,0.255,regex
+NONFARM1_24APR,Will Nonfarm Payrolls be between 3.0% and 4.0%?,NFP_20200110,NFP,0.255,regex
+NONFARM2_24APR,Will Nonfarm Payrolls be between 4.0% and 5.0%?,NFP_20200110,NFP,0.255,regex
+NONFARM0_24MAY,Will Nonfarm Payrolls be between 2.0% and 3.0%?,NFP_20200110,NFP,0.255,regex
+NONFARM1_24MAY,Will Nonfarm Payrolls be between 3.0% and 4.0%?,NFP_20200110,NFP,0.255,regex
+NONFARM2_24MAY,Will Nonfarm Payrolls be between 4.0% and 5.0%?,NFP_20200110,NFP,0.255,regex
+NONFARM0_24JUN,Will Nonfarm Payrolls be between 2.0% and 3.0%?,NFP_20200110,NFP,0.255,regex
+NONFARM1_24JUN,Will Nonfarm Payrolls be between 3.0% and 4.0%?,NFP_20200110,NFP,0.255,regex
+NONFARM2_24JUN,Will Nonfarm Payrolls be between 4.0% and 5.0%?,NFP_20200110,NFP,0.255,regex
+NONFARM0_24JUL,Will Nonfarm Payrolls be between 2.0% and 3.0%?,NFP_20200110,NFP,0.255,regex
+NONFARM1_24JUL,Will Nonfarm Payrolls be between 3.0% and 4.0%?,NFP_20200110,NFP,0.255,regex
+NONFARM2_24JUL,Will Nonfarm Payrolls be between 4.0% and 5.0%?,NFP_20200110,NFP,0.255,regex
+NONFARM0_24AUG,Will Nonfarm Payrolls be between 2.0% and 3.0%?,NFP_20200110,NFP,0.255,regex
+NONFARM1_24AUG,Will Nonfarm Payrolls be between 3.0% and 4.0%?,NFP_20200110,NFP,0.255,regex
+NONFARM2_24AUG,Will Nonfarm Payrolls be between 4.0% and 5.0%?,NFP_20200110,NFP,0.255,regex
+NONFARM0_24SEP,Will Nonfarm Payrolls be between 2.0% and 3.0%?,NFP_20200110,NFP,0.255,regex
+NONFARM1_24SEP,Will Nonfarm Payrolls be between 3.0% and 4.0%?,NFP_20200110,NFP,0.255,regex
+NONFARM2_24SEP,Will Nonfarm Payrolls be between 4.0% and 5.0%?,NFP_20200110,NFP,0.255,regex
+NONFARM0_24OCT,Will Nonfarm Payrolls be between 2.0% and 3.0%?,NFP_20200110,NFP,0.255,regex
+NONFARM1_24OCT,Will Nonfarm Payrolls be between 3.0% and 4.0%?,NFP_20200110,NFP,0.255,regex
+NONFARM2_24OCT,Will Nonfarm Payrolls be between 4.0% and 5.0%?,NFP_20200110,NFP,0.255,regex
+NONFARM0_24NOV,Will Nonfarm Payrolls be between 2.0% and 3.0%?,NFP_20200110,NFP,0.255,regex
+NONFARM1_24NOV,Will Nonfarm Payrolls be between 3.0% and 4.0%?,NFP_20200110,NFP,0.255,regex
+NONFARM2_24NOV,Will Nonfarm Payrolls be between 4.0% and 5.0%?,NFP_20200110,NFP,0.255,regex
+NONFARM0_24DEC,Will Nonfarm Payrolls be between 2.0% and 3.0%?,NFP_20200110,NFP,0.255,regex
+NONFARM1_24DEC,Will Nonfarm Payrolls be between 3.0% and 4.0%?,NFP_20200110,NFP,0.255,regex
+NONFARM2_24DEC,Will Nonfarm Payrolls be between 4.0% and 5.0%?,NFP_20200110,NFP,0.255,regex
+UNEMPLOYMENT0_24JAN,Will Unemployment Rate be between 2.0% and 3.0%?,UNEMPLOYMENT_20200110,UNEMPLOYMENT,0.335,regex
+UNEMPLOYMENT1_24JAN,Will Unemployment Rate be between 3.0% and 4.0%?,UNEMPLOYMENT_20200110,UNEMPLOYMENT,0.335,regex
+UNEMPLOYMENT2_24JAN,Will Unemployment Rate be between 4.0% and 5.0%?,UNEMPLOYMENT_20200110,UNEMPLOYMENT,0.335,regex
+UNEMPLOYMENT0_24FEB,Will Unemployment Rate be between 2.0% and 3.0%?,UNEMPLOYMENT_20200110,UNEMPLOYMENT,0.335,regex
+UNEMPLOYMENT1_24FEB,Will Unemployment Rate be between 3.0% and 4.0%?,UNEMPLOYMENT_20200110,UNEMPLOYMENT,0.335,regex
+UNEMPLOYMENT2_24FEB,Will Unemployment Rate be between 4.0% and 5.0%?,UNEMPLOYMENT_20200110,UNEMPLOYMENT,0.335,regex
+UNEMPLOYMENT0_24MAR,Will Unemployment Rate be between 2.0% and 3.0%?,UNEMPLOYMENT_20200110,UNEMPLOYMENT,0.335,regex
+UNEMPLOYMENT1_24MAR,Will Unemployment Rate be between 3.0% and 4.0%?,UNEMPLOYMENT_20200110,UNEMPLOYMENT,0.335,regex
+UNEMPLOYMENT2_24MAR,Will Unemployment Rate be between 4.0% and 5.0%?,UNEMPLOYMENT_20200110,UNEMPLOYMENT,0.335,regex
+UNEMPLOYMENT0_24APR,Will Unemployment Rate be between 2.0% and 3.0%?,UNEMPLOYMENT_20200110,UNEMPLOYMENT,0.335,regex
+UNEMPLOYMENT1_24APR,Will Unemployment Rate be between 3.0% and 4.0%?,UNEMPLOYMENT_20200110,UNEMPLOYMENT,0.335,regex
+UNEMPLOYMENT2_24APR,Will Unemployment Rate be between 4.0% and 5.0%?,UNEMPLOYMENT_20200110,UNEMPLOYMENT,0.335,regex
+UNEMPLOYMENT0_24MAY,Will Unemployment Rate be between 2.0% and 3.0%?,UNEMPLOYMENT_20200110,UNEMPLOYMENT,0.335,regex
+UNEMPLOYMENT1_24MAY,Will Unemployment Rate be between 3.0% and 4.0%?,UNEMPLOYMENT_20200110,UNEMPLOYMENT,0.335,regex
+UNEMPLOYMENT2_24MAY,Will Unemployment Rate be between 4.0% and 5.0%?,UNEMPLOYMENT_20200110,UNEMPLOYMENT,0.335,regex
+UNEMPLOYMENT0_24JUN,Will Unemployment Rate be between 2.0% and 3.0%?,UNEMPLOYMENT_20200110,UNEMPLOYMENT,0.335,regex
+UNEMPLOYMENT1_24JUN,Will Unemployment Rate be between 3.0% and 4.0%?,UNEMPLOYMENT_20200110,UNEMPLOYMENT,0.335,regex
+UNEMPLOYMENT2_24JUN,Will Unemployment Rate be between 4.0% and 5.0%?,UNEMPLOYMENT_20200110,UNEMPLOYMENT,0.335,regex
+UNEMPLOYMENT0_24JUL,Will Unemployment Rate be between 2.0% and 3.0%?,UNEMPLOYMENT_20200110,UNEMPLOYMENT,0.335,regex
+UNEMPLOYMENT1_24JUL,Will Unemployment Rate be between 3.0% and 4.0%?,UNEMPLOYMENT_20200110,UNEMPLOYMENT,0.335,regex
+UNEMPLOYMENT2_24JUL,Will Unemployment Rate be between 4.0% and 5.0%?,UNEMPLOYMENT_20200110,UNEMPLOYMENT,0.335,regex
+UNEMPLOYMENT0_24AUG,Will Unemployment Rate be between 2.0% and 3.0%?,UNEMPLOYMENT_20200110,UNEMPLOYMENT,0.335,regex
+UNEMPLOYMENT1_24AUG,Will Unemployment Rate be between 3.0% and 4.0%?,UNEMPLOYMENT_20200110,UNEMPLOYMENT,0.335,regex
+UNEMPLOYMENT2_24AUG,Will Unemployment Rate be between 4.0% and 5.0%?,UNEMPLOYMENT_20200110,UNEMPLOYMENT,0.335,regex
+UNEMPLOYMENT0_24SEP,Will Unemployment Rate be between 2.0% and 3.0%?,UNEMPLOYMENT_20200110,UNEMPLOYMENT,0.335,regex
+UNEMPLOYMENT1_24SEP,Will Unemployment Rate be between 3.0% and 4.0%?,UNEMPLOYMENT_20200110,UNEMPLOYMENT,0.335,regex
+UNEMPLOYMENT2_24SEP,Will Unemployment Rate be between 4.0% and 5.0%?,UNEMPLOYMENT_20200110,UNEMPLOYMENT,0.335,regex
+UNEMPLOYMENT0_24OCT,Will Unemployment Rate be between 2.0% and 3.0%?,UNEMPLOYMENT_20200110,UNEMPLOYMENT,0.335,regex
+UNEMPLOYMENT1_24OCT,Will Unemployment Rate be between 3.0% and 4.0%?,UNEMPLOYMENT_20200110,UNEMPLOYMENT,0.335,regex
+UNEMPLOYMENT2_24OCT,Will Unemployment Rate be between 4.0% and 5.0%?,UNEMPLOYMENT_20200110,UNEMPLOYMENT,0.335,regex
+UNEMPLOYMENT0_24NOV,Will Unemployment Rate be between 2.0% and 3.0%?,UNEMPLOYMENT_20200110,UNEMPLOYMENT,0.335,regex
+UNEMPLOYMENT1_24NOV,Will Unemployment Rate be between 3.0% and 4.0%?,UNEMPLOYMENT_20200110,UNEMPLOYMENT,0.335,regex
+UNEMPLOYMENT2_24NOV,Will Unemployment Rate be between 4.0% and 5.0%?,UNEMPLOYMENT_20200110,UNEMPLOYMENT,0.335,regex
+UNEMPLOYMENT0_24DEC,Will Unemployment Rate be between 2.0% and 3.0%?,UNEMPLOYMENT_20200110,UNEMPLOYMENT,0.335,regex
+UNEMPLOYMENT1_24DEC,Will Unemployment Rate be between 3.0% and 4.0%?,UNEMPLOYMENT_20200110,UNEMPLOYMENT,0.335,regex
+UNEMPLOYMENT2_24DEC,Will Unemployment Rate be between 4.0% and 5.0%?,UNEMPLOYMENT_20200110,UNEMPLOYMENT,0.335,regex
+GDP0_24JAN,Will GDP Growth be between 2.0% and 3.0%?,GDP_20200130,GDP,0.335,regex
+GDP1_24JAN,Will GDP Growth be between 3.0% and 4.0%?,GDP_20200130,GDP,0.335,regex
+GDP2_24JAN,Will GDP Growth be between 4.0% and 5.0%?,GDP_20200130,GDP,0.335,regex
+GDP0_24FEB,Will GDP Growth be between 2.0% and 3.0%?,GDP_20200130,GDP,0.335,regex
+GDP1_24FEB,Will GDP Growth be between 3.0% and 4.0%?,GDP_20200130,GDP,0.335,regex
+GDP2_24FEB,Will GDP Growth be between 4.0% and 5.0%?,GDP_20200130,GDP,0.335,regex
+GDP0_24MAR,Will GDP Growth be between 2.0% and 3.0%?,GDP_20200130,GDP,0.335,regex
+GDP1_24MAR,Will GDP Growth be between 3.0% and 4.0%?,GDP_20200130,GDP,0.335,regex
+GDP2_24MAR,Will GDP Growth be between 4.0% and 5.0%?,GDP_20200130,GDP,0.335,regex
+GDP0_24APR,Will GDP Growth be between 2.0% and 3.0%?,GDP_20200130,GDP,0.335,regex
+GDP1_24APR,Will GDP Growth be between 3.0% and 4.0%?,GDP_20200130,GDP,0.335,regex
+GDP2_24APR,Will GDP Growth be between 4.0% and 5.0%?,GDP_20200130,GDP,0.335,regex
+GDP0_24MAY,Will GDP Growth be between 2.0% and 3.0%?,GDP_20200130,GDP,0.335,regex
+GDP1_24MAY,Will GDP Growth be between 3.0% and 4.0%?,GDP_20200130,GDP,0.335,regex
+GDP2_24MAY,Will GDP Growth be between 4.0% and 5.0%?,GDP_20200130,GDP,0.335,regex
+GDP0_24JUN,Will GDP Growth be between 2.0% and 3.0%?,GDP_20200130,GDP,0.335,regex
+GDP1_24JUN,Will GDP Growth be between 3.0% and 4.0%?,GDP_20200130,GDP,0.335,regex
+GDP2_24JUN,Will GDP Growth be between 4.0% and 5.0%?,GDP_20200130,GDP,0.335,regex
+GDP0_24JUL,Will GDP Growth be between 2.0% and 3.0%?,GDP_20200130,GDP,0.335,regex
+GDP1_24JUL,Will GDP Growth be between 3.0% and 4.0%?,GDP_20200130,GDP,0.335,regex
+GDP2_24JUL,Will GDP Growth be between 4.0% and 5.0%?,GDP_20200130,GDP,0.335,regex
+GDP0_24AUG,Will GDP Growth be between 2.0% and 3.0%?,GDP_20200130,GDP,0.335,regex
+GDP1_24AUG,Will GDP Growth be between 3.0% and 4.0%?,GDP_20200130,GDP,0.335,regex
+GDP2_24AUG,Will GDP Growth be between 4.0% and 5.0%?,GDP_20200130,GDP,0.335,regex
+GDP0_24SEP,Will GDP Growth be between 2.0% and 3.0%?,GDP_20200130,GDP,0.335,regex
+GDP1_24SEP,Will GDP Growth be between 3.0% and 4.0%?,GDP_20200130,GDP,0.335,regex
+GDP2_24SEP,Will GDP Growth be between 4.0% and 5.0%?,GDP_20200130,GDP,0.335,regex
+GDP0_24OCT,Will GDP Growth be between 2.0% and 3.0%?,GDP_20200130,GDP,0.335,regex
+GDP1_24OCT,Will GDP Growth be between 3.0% and 4.0%?,GDP_20200130,GDP,0.335,regex
+GDP2_24OCT,Will GDP Growth be between 4.0% and 5.0%?,GDP_20200130,GDP,0.335,regex
+GDP0_24NOV,Will GDP Growth be between 2.0% and 3.0%?,GDP_20200130,GDP,0.335,regex
+GDP1_24NOV,Will GDP Growth be between 3.0% and 4.0%?,GDP_20200130,GDP,0.335,regex
+GDP2_24NOV,Will GDP Growth be between 4.0% and 5.0%?,GDP_20200130,GDP,0.335,regex
+GDP0_24DEC,Will GDP Growth be between 2.0% and 3.0%?,GDP_20200130,GDP,0.335,regex
+GDP1_24DEC,Will GDP Growth be between 3.0% and 4.0%?,GDP_20200130,GDP,0.335,regex
+GDP2_24DEC,Will GDP Growth be between 4.0% and 5.0%?,GDP_20200130,GDP,0.335,regex
+PCE0_24JAN,Will PCE Price Index be between 2.0% and 3.0%?,PCE_20200131,PCE,0.335,regex
+PCE1_24JAN,Will PCE Price Index be between 3.0% and 4.0%?,PCE_20200131,PCE,0.335,regex
+PCE2_24JAN,Will PCE Price Index be between 4.0% and 5.0%?,PCE_20200131,PCE,0.335,regex
+PCE0_24FEB,Will PCE Price Index be between 2.0% and 3.0%?,PCE_20200131,PCE,0.335,regex
+PCE1_24FEB,Will PCE Price Index be between 3.0% and 4.0%?,PCE_20200131,PCE,0.335,regex
+PCE2_24FEB,Will PCE Price Index be between 4.0% and 5.0%?,PCE_20200131,PCE,0.335,regex
+PCE0_24MAR,Will PCE Price Index be between 2.0% and 3.0%?,PCE_20200131,PCE,0.335,regex
+PCE1_24MAR,Will PCE Price Index be between 3.0% and 4.0%?,PCE_20200131,PCE,0.335,regex
+PCE2_24MAR,Will PCE Price Index be between 4.0% and 5.0%?,PCE_20200131,PCE,0.335,regex
+PCE0_24APR,Will PCE Price Index be between 2.0% and 3.0%?,PCE_20200131,PCE,0.335,regex
+PCE1_24APR,Will PCE Price Index be between 3.0% and 4.0%?,PCE_20200131,PCE,0.335,regex
+PCE2_24APR,Will PCE Price Index be between 4.0% and 5.0%?,PCE_20200131,PCE,0.335,regex
+PCE0_24MAY,Will PCE Price Index be between 2.0% and 3.0%?,PCE_20200131,PCE,0.335,regex
+PCE1_24MAY,Will PCE Price Index be between 3.0% and 4.0%?,PCE_20200131,PCE,0.335,regex
+PCE2_24MAY,Will PCE Price Index be between 4.0% and 5.0%?,PCE_20200131,PCE,0.335,regex
+PCE0_24JUN,Will PCE Price Index be between 2.0% and 3.0%?,PCE_20200131,PCE,0.335,regex
+PCE1_24JUN,Will PCE Price Index be between 3.0% and 4.0%?,PCE_20200131,PCE,0.335,regex
+PCE2_24JUN,Will PCE Price Index be between 4.0% and 5.0%?,PCE_20200131,PCE,0.335,regex
+PCE0_24JUL,Will PCE Price Index be between 2.0% and 3.0%?,PCE_20200131,PCE,0.335,regex
+PCE1_24JUL,Will PCE Price Index be between 3.0% and 4.0%?,PCE_20200131,PCE,0.335,regex
+PCE2_24JUL,Will PCE Price Index be between 4.0% and 5.0%?,PCE_20200131,PCE,0.335,regex
+PCE0_24AUG,Will PCE Price Index be between 2.0% and 3.0%?,PCE_20200131,PCE,0.335,regex
+PCE1_24AUG,Will PCE Price Index be between 3.0% and 4.0%?,PCE_20200131,PCE,0.335,regex
+PCE2_24AUG,Will PCE Price Index be between 4.0% and 5.0%?,PCE_20200131,PCE,0.335,regex
+PCE0_24SEP,Will PCE Price Index be between 2.0% and 3.0%?,PCE_20200131,PCE,0.335,regex
+PCE1_24SEP,Will PCE Price Index be between 3.0% and 4.0%?,PCE_20200131,PCE,0.335,regex
+PCE2_24SEP,Will PCE Price Index be between 4.0% and 5.0%?,PCE_20200131,PCE,0.335,regex
+PCE0_24OCT,Will PCE Price Index be between 2.0% and 3.0%?,PCE_20200131,PCE,0.335,regex
+PCE1_24OCT,Will PCE Price Index be between 3.0% and 4.0%?,PCE_20200131,PCE,0.335,regex
+PCE2_24OCT,Will PCE Price Index be between 4.0% and 5.0%?,PCE_20200131,PCE,0.335,regex
+PCE0_24NOV,Will PCE Price Index be between 2.0% and 3.0%?,PCE_20200131,PCE,0.335,regex
+PCE1_24NOV,Will PCE Price Index be between 3.0% and 4.0%?,PCE_20200131,PCE,0.335,regex
+PCE2_24NOV,Will PCE Price Index be between 4.0% and 5.0%?,PCE_20200131,PCE,0.335,regex
+PCE0_24DEC,Will PCE Price Index be between 2.0% and 3.0%?,PCE_20200131,PCE,0.335,regex
+PCE1_24DEC,Will PCE Price Index be between 3.0% and 4.0%?,PCE_20200131,PCE,0.335,regex
+PCE2_24DEC,Will PCE Price Index be between 4.0% and 5.0%?,PCE_20200131,PCE,0.335,regex
