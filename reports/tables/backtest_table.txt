@@ -1,0 +1,13 @@
+============================================================
+BACKTEST PERFORMANCE
+============================================================
+  Total Return:              1.36%
+  Annualized Return:        10.88%
+  Annualized Volatility:    35.74%
+  Sharpe Ratio:              0.304
+  Maximum Drawdown:         -7.24%
+  Calmar Ratio:              1.503
+  Win Rate:                 54.55%
+  Avg Turnover:              8.89%
+  SPY Buy & Hold:            1.36%
+  N Periods:                    33

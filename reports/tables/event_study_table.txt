@@ -1,0 +1,18 @@
+========================================================================================================================
+EVENT STUDY ANALYSIS
+========================================================================================================================
+
+--- By Event Type ---
+event_type  n_events  return_1D_mean  return_1D_se  return_1D_tstat  return_1D_hit_rate  return_3D_mean  return_3D_se  return_3D_tstat  return_3D_hit_rate  return_5D_mean  return_5D_se  return_5D_tstat  return_5D_hit_rate  return_10D_mean  return_10D_se  return_10D_tstat  return_10D_hit_rate  return_21D_mean  return_21D_se  return_21D_tstat  return_21D_hit_rate
+       CPI       600       -0.000183      0.000428        -0.427817                0.50        0.000970      0.000695         1.395002            0.486667        0.000918      0.000728         1.260602            0.486667        -0.000474       0.001035         -0.458371             0.493333        -0.000168       0.001503         -0.111744                 0.51
+      FOMC        50        0.000141      0.001434         0.098560                0.44        0.005286      0.002526         2.092109            0.520000        0.005286      0.002526         2.092109            0.520000         0.002105       0.004386          0.480025             0.520000         0.001536       0.006514          0.235790                 0.48
+
+--- By Event Type & Direction ---
+event_type direction  n_events  return_1D_mean  return_1D_se  return_1D_tstat  return_1D_hit_rate  return_3D_mean  return_3D_se  return_3D_tstat  return_3D_hit_rate  return_5D_mean  return_5D_se  return_5D_tstat  return_5D_hit_rate  return_10D_mean  return_10D_se  return_10D_tstat  return_10D_hit_rate  return_21D_mean  return_21D_se  return_21D_tstat  return_21D_hit_rate
+       CPI   neutral       600       -0.000183      0.000428        -0.427817                0.50        0.000970      0.000695         1.395002            0.486667        0.000918      0.000728         1.260602            0.486667        -0.000474       0.001035         -0.458371             0.493333        -0.000168       0.001503         -0.111744                 0.51
+      FOMC   neutral        50        0.000141      0.001434         0.098560                0.44        0.005286      0.002526         2.092109            0.520000        0.005286      0.002526         2.092109            0.520000         0.002105       0.004386          0.480025             0.520000         0.001536       0.006514          0.235790                 0.48
+
+--- By Event Type & Qualitative ---
+event_type qualitative  n_events  return_1D_mean  return_1D_se  return_1D_tstat  return_1D_hit_rate  return_3D_mean  return_3D_se  return_3D_tstat  return_3D_hit_rate  return_5D_mean  return_5D_se  return_5D_tstat  return_5D_hit_rate  return_10D_mean  return_10D_se  return_10D_tstat  return_10D_hit_rate  return_21D_mean  return_21D_se  return_21D_tstat  return_21D_hit_rate
+       CPI     neutral       600       -0.000183      0.000428        -0.427817                0.50        0.000970      0.000695         1.395002            0.486667        0.000918      0.000728         1.260602            0.486667        -0.000474       0.001035         -0.458371             0.493333        -0.000168       0.001503         -0.111744                 0.51
+      FOMC     neutral        50        0.000141      0.001434         0.098560                0.44        0.005286      0.002526         2.092109            0.520000        0.005286      0.002526         2.092109            0.520000         0.002105       0.004386          0.480025             0.520000         0.001536       0.006514          0.235790                 0.48
