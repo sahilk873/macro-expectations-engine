@@ -46,6 +46,82 @@ market-implied-macro-engine/
 - **Replaceable components**: Price data provider is abstract; yfinance is the default MVP implementation.
 - **Limitations disclosed**: Daily ETF data is used for intraday events (FOMC); this limitation is clearly noted.
 
+## Research Methodology (v0.2.0)
+
+### Multi-Factor Surprise Attribution
+
+The `macro_engine.factors` module isolates the marginal "alpha" of macro surprises by controlling for standard risk factors:
+
+$$
+R_{i,t} = \alpha_i + \beta_{MKT} R_{MKT,t} + \beta_{RATES} R_{RATES,t} + \beta_{CREDIT} R_{CREDIT,t} + \beta_{DOLLAR} R_{DOLLAR,t} + \gamma_i \text{Surprise}_t + \epsilon_{i,t}
+$$
+
+- **Panel regression** with asset fixed effects across event windows
+- **Benjamini-Hochberg** false discovery rate control for multiple hypothesis testing
+- **Cumulative abnormal returns (CAR)** with bootstrap confidence intervals
+
+### Bayesian Shrinkage & Neyman Confidence Intervals
+
+The `macro_engine.studies.bayesian` module applies empirical Bayes methods to improve small-sample inference:
+
+- **Empirical Bayes shrinkage**: pulls event-type mean returns toward the grand mean, weighting by precision ($1/\sigma^2$)
+- **Neyman bootstrap-t confidence intervals**: robust to asymmetric, fat-tailed return distributions
+- **Bayes factors**: quantify evidence for / against non-zero event returns
+- **Sharpe ratio equivalents**: normalize strategy performance for cross-methodology comparison
+
+### Prediction Market Microstructure
+
+The `macro_engine.microstructure` module evaluates Kalshi market quality metrics:
+
+- **VWAP implied probability**: volume-weighted price discovery
+- **Bid-ask spread analysis**: mean, median, volatility of spreads
+- **Arbitrage detection**: flags markets where $\text{yes\_bid} + \text{no\_bid} > 1$
+- **Market depth ratio**: open interest relative to volume
+- **Price discovery ratio**: how quickly the mid-price incorporates new information
+
+### HMM-Based Regime Detection
+
+The `macro_engine.regime.hmm_model` module discovers macro-financial regimes from data rather than relying on heuristic thresholds:
+
+- **Gaussian HMM** fitted on GDP, CPI, unemployment, NFP change, Fed funds rate, term spread, and SPY volatility
+- **Automatic state ordering** by economic interpretability (expansion vs contraction)
+- **Transition probability matrix** for regime persistence analysis
+- **Configurable number of regimes** with comparison to the rule-based classification
+
+### Walk-Forward Backtest Validation
+
+The `macro_engine.backtest.walk_forward` module provides rigorous out-of-sample strategy evaluation:
+
+- **Expanding-window walk-forward splits** mimicking live trading conditions
+- **Pooled out-of-sample Sharpe ratio**: the gold standard for strategy evaluation
+- **Parameter sensitivity analysis** ($\partial \text{Sharpe} / \partial \text{Param}$) for stability assessment
+- **Multi-split cross-validation** to reduce overfitting risk
+
+### Surprise Decomposition
+
+The `macro_engine.surprises.decomposition` module enriches binary surprise signals with information-theoretic measures:
+
+- **Log-odds (logit) decomposition**: maps probability changes to surprise levels
+- **Entropy-based uncertainty revision**: $\Delta H = -[p\log p + (1-p)\log(1-p)]$
+- **Shannon entropy confidence scoring**: flags low-information predictions
+
+### Confounding Event Control
+
+The `macro_engine.studies.confounding` module addresses the fundamental event study problem of overlapping macro releases:
+
+- **Confounding event detection**: finds co-occurring events within a configurable time window
+- **Welch t-test** comparing confounded vs unconfounded return distributions
+- **Residualization**: $R = \alpha + \beta \cdot N_{\text{confounds}} + \epsilon$ to isolate the marginal effect
+
+### LaTeX Research Report Generator
+
+The `macro_engine.report.latex_report` module produces a publication-quality academic paper:
+
+- **Full structure**: Abstract, Introduction, Data, Methodology, Empirical Results, Robustness, Conclusion
+- **Formatted tables** with significance stars and LaTeX rendering
+- **Mathematical equations** for all methodology sections
+- **Limitations disclosure** and suggestions for future work
+
 ## Data Sources
 
 | Source | Data | Access |
@@ -65,6 +141,9 @@ git clone <repo>
 cd market-implied-macro-engine
 make setup
 
+# Install with HMM support (optional, for regime detection)
+pip install -e ".[hmm]"
+
 # Set API keys
 cp .env.example .env
 # Edit .env with your API keys
@@ -72,6 +151,19 @@ cp .env.example .env
 # Run full pipeline
 make run-all
 ```
+
+## Research Modules (v0.2.0+)
+
+| Module | Location | Function |
+|--------|----------|----------|
+| Factor Model | `macro_engine.factors` | Multi-factor surprise attribution with BH correction |
+| Bayesian Studies | `macro_engine.studies.bayesian` | Shrinkage estimators, Neyman CIs, Bayes factors |
+| Microstructure | `macro_engine.microstructure` | Prediction market quality metrics |
+| HMM Regime | `macro_engine.regime.hmm_model` | Data-driven Gaussian HMM regime detection |
+| Walk-Forward | `macro_engine.backtest.walk_forward` | OOS backtest validation & parameter sensitivity |
+| Surprise Decomposition | `macro_engine.surprises.decomposition` | Log-odds & entropy-based surprise analysis |
+| Confounding Control | `macro_engine.studies.confounding` | Confounding event detection & residualization |
+| LaTeX Report | `macro_engine.report.latex_report` | Publication-quality academic paper generation |
 
 ## Pipeline
 
@@ -90,6 +182,7 @@ make run-all
 | 11 | `run_backtest.py` | Regime-aware backtest |
 | 12 | `run_robustness_checks.py` | Placebo tests and robustness |
 | 13 | `generate_report.py` | Summary tables and figures |
+| 14 | **Research modules** | Factor model, Bayesian, microstructure, HMM, walk-forward, confounding, LaTeX report |
 
 ## Event Types Covered
 
@@ -128,23 +221,25 @@ make run-all
 - **API rate limits**: BLS and other free-tier APIs have rate limits; batch processing may be slow.
 - **Surrogate data**: When official macro API keys are unavailable, FRED serves as a proxy for BEA data.
 - **Simulated prices**: Without yfinance, a deterministic dummy provider is used for development.
+- **Research modules (v0.2.0)**: The factor model, HMM, Bayesian, microstructure, walk-forward, confounding, and LaTeX report modules are methodological contributions validated on synthetic data. Empirical calibration on live Kalshi data is pending API key availability.
+- **HMM module**: Requires `pip install market-implied-macro-engine[hmm]` for the `hmmlearn` dependency.
 
 ## Tests
 
 ```bash
 make test
+# Or: python3 -m pytest
 ```
 
-Tests cover:
-- Probability conversion from binary markets
-- Bucket range parsing for multi-bucket markets
-- Event-time alignment and pre-event snapshots
-- Surprise calculation (raw, standardized, percentage)
-- Surprise labeling (inflation, employment, growth, policy)
-- Return window computation
-- No-lookahead bias verification
-- Event calendar integrity
-- Market mapping confidence scoring
+165 tests covering:
+- Core: probability conversion, bucket parsing, event-time alignment, surprise calculation, return windows, no-lookahead bias, event calendar integrity, market mapping confidence
+- **Factor model** (11 tests): panel regression, BH correction, CAR with bootstrap CIs
+- **Bayesian shrinkage** (16 tests): empirical Bayes, Neyman CIs, Bayes factors, Sharpe equivalents
+- **Microstructure** (16 tests): VWAP, spreads, arbitrage detection, depth ratio, price discovery
+- **Confounding control** (8 tests): event detection, Welch t-test, residualization
+- **Surprise decomposition** (10 tests): log-odds decomposition, entropy confidence scoring
+- **Walk-forward backtest** (8 tests): split generation, OOS Sharpe, parameter sensitivity
+- **HMM regime** (16 tests): state ordering, transition matrices, feature scaling, reproducibility
 
 ## Key Results
 
@@ -153,10 +248,24 @@ See `reports/tables/` for:
 - Event study results (by type, direction, qualitative label)
 - Backtest performance (returns, Sharpe, drawdown)
 - Robustness checks (placebo p-values)
+- **Factor model attribution** (surprise alpha net of market/rates/credit/dollar factors)
+- **Microstructure quality** (spreads, arbitrage, depth by event type)
+- **HMM regime transitions** (transition probabilities, state comparisons)
+- **Walk-forward OOS Sharpe** (pooled OOS performance across splits)
+- **Confounding robustness** (confounded vs unconfounded event returns)
 
 ## Project Status
 
 Implemented phases: 1-13 ✓
+Research modules: 8/8 complete (v0.2.0)
+- [x] Multi-factor surprise attribution
+- [x] Bayesian shrinkage & Neyman CIs
+- [x] Prediction market microstructure
+- [x] HMM-based regime detection
+- [x] Walk-forward backtest validation
+- [x] Surprise decomposition (log-odds & entropy)
+- [x] Confounding event control
+- [x] LaTeX research report generator
 
 ## License
 

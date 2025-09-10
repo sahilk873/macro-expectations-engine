@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "market-implied-macro-engine"
-version = "0.1.0"
+version = "0.2.0"
 description = "Extract market-implied macro expectations from prediction markets, compute surprises, and test cross-asset reactions"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -25,6 +25,7 @@ dependencies = [
 fred = ["fredapi>=0.5"]
 yfinance = ["yfinance>=0.2"]
 bls = ["bls>=0.3"]
+hmm = ["hmmlearn>=0.3"]
 dev = [
     "pytest>=7.4",
     "pytest-cov>=4.1",
@@ -33,7 +34,22 @@ dev = [
     "types-pyyaml",
     "types-requests",
 ]
-notebook = ["jupyter", "matplotlib", "seaborn", "plotly"]
+notebook = [
+    "jupyter",
+    "matplotlib>=3.7",
+    "seaborn>=0.12",
+    "plotly>=5.15",
+]
+all = [
+    "fredapi>=0.5",
+    "yfinance>=0.2",
+    "bls>=0.3",
+    "hmmlearn>=0.3",
+    "jupyter",
+    "matplotlib>=3.7",
+    "seaborn>=0.12",
+    "plotly>=5.15",
+]
 
 [tool.setuptools.packages.find]
 where = ["src"]

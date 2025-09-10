@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
-"""Phase 3: Fetch Kalshi prediction market data.
+"""Phase 3: Fetch Kalshi prediction market data."""
 
-Uses fallback series when API is unavailable/rate-limited.
-Creates sample market data for macro series to enable end-to-end pipeline.
-"""
-
+import logging
 import sys
 from pathlib import Path
 
@@ -12,12 +9,14 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import pandas as pd
 
+from macro_engine.config import setup_logging
 from macro_engine.config.settings import get_settings
 from macro_engine.kalshi.client import KalshiClient
 
+logger = logging.getLogger(__name__)
+
 
 def create_sample_macro_markets() -> pd.DataFrame:
-    """Create sample Kalshi markets for macro series when API unavailable."""
     from datetime import datetime
 
     rows = []
@@ -30,7 +29,6 @@ def create_sample_macro_markets() -> pd.DataFrame:
         ("PCE", "PCE", "PCE Price Index", "inflation"),
     ]
 
-    # Historical release dates (sample)
     release_dates = [
         "2024-01-11",
         "2024-02-13",
@@ -76,12 +74,9 @@ def create_sample_macro_markets() -> pd.DataFrame:
 
 
 def create_sample_price_history() -> pd.DataFrame:
-    """Create sample price history for macro markets."""
     from datetime import datetime, timedelta
 
     rows = []
-    # Generate prices for markets matching our sample releases
-    macro_tickers = []
     month_labels = [
         "24JAN",
         "24FEB",
@@ -96,38 +91,33 @@ def create_sample_price_history() -> pd.DataFrame:
         "24NOV",
         "24DEC",
     ]
+    month_map = {
+        "JAN": 1,
+        "FEB": 2,
+        "MAR": 3,
+        "APR": 4,
+        "MAY": 5,
+        "JUN": 6,
+        "JUL": 7,
+        "AUG": 8,
+        "SEP": 9,
+        "OCT": 10,
+        "NOV": 11,
+        "DEC": 12,
+    }
+    macro_tickers = []
     for series in ["CPI", "FOMC", "NFP"]:
         for ml in month_labels:
             macro_tickers.append(f"{series}0_{ml}")
 
     for ticker in macro_tickers:
         for days_before in range(1, 15):
-            # Event days: 11th, 13th, 12th etc. Approximate as mid-month
-            event_day = 15
-            event_dt = datetime(2024, 1, event_day, 8, 30)
-            # Adjust by month label
-            month_map = {
-                "JAN": 1,
-                "FEB": 2,
-                "MAR": 3,
-                "APR": 4,
-                "MAY": 5,
-                "JUN": 6,
-                "JUL": 7,
-                "AUG": 8,
-                "SEP": 9,
-                "OCT": 10,
-                "NOV": 11,
-                "DEC": 12,
-            }
             suffix = ticker.split("_")[1]
             month_num = month_map.get(suffix[:3], 1)
-            event_dt = datetime(2024, month_num, min(event_day, 28), 8, 30)
-
+            event_dt = datetime(2024, month_num, min(15, 28), 8, 30)
             ts = event_dt - timedelta(days=days_before, hours=days_before % 12)
             if ts < datetime(2024, 1, 1):
                 continue
-
             price = 0.50 + (14 - days_before) * 0.01 + (month_num / 12) * 0.1
             price = min(max(price, 0.05), 0.95)
             rows.append(
@@ -146,13 +136,14 @@ def create_sample_price_history() -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
-def main():
+def main() -> None:
+    setup_logging()
     cfg = get_settings()
     client = KalshiClient(environment=cfg.kalshi_environment)
 
-    print("Fetching Kalshi series...")
+    logger.info("Fetching Kalshi series...")
     series_list = client.list_series()
-    print(f"Found {len(series_list)} series")
+    logger.info("Found %d series", len(series_list))
 
     all_markets = []
     has_api_key = bool(cfg.kalshi_api_key and cfg.kalshi_api_secret)
@@ -160,11 +151,11 @@ def main():
     if has_api_key:
         for s in series_list:
             if s.series_ticker not in ("CPI", "FOMC", "NONFARM", "UNEMPLOYMENT", "GDP", "PCE"):
-                continue  # Only fetch macro series
-            print(f"  Series: {s.series_ticker}")
+                continue
+            logger.info("  Series: %s", s.series_ticker)
             try:
                 events = client.list_events(s.series_ticker)
-                print(f"    Events: {len(events)}")
+                logger.info("    Events: %d", len(events))
                 for e in events:
                     try:
                         markets = client.list_markets(e.event_ticker)
@@ -175,24 +166,21 @@ def main():
                 continue
 
     if not all_markets:
-        print("Using sample macro market data (no API key or rate-limited)")
+        logger.info("Using sample macro market data (no API key or rate-limited)")
         df = create_sample_macro_markets()
         path = cfg.kalshi_dir / cfg.kalshi_markets_file
         path.parent.mkdir(parents=True, exist_ok=True)
         df.to_parquet(path, index=False)
-        print(f"Saved {len(df)} sample markets to {path}")
+        logger.info("Saved %d sample markets to %s", len(df), path)
 
-        # Sample price history
         prices = create_sample_price_history()
         price_path = cfg.kalshi_dir / cfg.kalshi_prices_file
         prices.to_parquet(price_path, index=False)
-        print(f"Saved {len(prices)} sample price records to {price_path}")
+        logger.info("Saved %d sample price records to %s", len(prices), price_path)
     else:
         markets_path = cfg.kalshi_dir / cfg.kalshi_markets_file
         KalshiClient.save_markets_to_parquet(all_markets, markets_path)
-        print(f"Saved {len(all_markets)} markets to {markets_path}")
-
-    print("Done.")
+        logger.info("Saved %d markets to %s", len(all_markets), markets_path)
 
 
 if __name__ == "__main__":

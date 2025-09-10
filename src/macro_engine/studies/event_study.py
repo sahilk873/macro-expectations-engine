@@ -1,18 +1,17 @@
 from __future__ import annotations
 
+import logging
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Optional
 
 import numpy as np
 import pandas as pd
+from scipy import stats as sp_stats
 
 from macro_engine.config.settings import EngineConfig, get_settings
 
-# ---------------------------------------------------------------------------
-# Return computation
-# ---------------------------------------------------------------------------
-
+logger = logging.getLogger(__name__)
 
 _TD_LOOKUP = {
     "1D": 1,
@@ -28,12 +27,13 @@ def compute_event_returns(
     price_data: pd.DataFrame,
     event_time: datetime,
     tickers: list[str],
-    pre_window: str = "1D",
     post_windows: Optional[list[str]] = None,
+    pre_window: str = "1D",
 ) -> dict[str, dict[str, float]]:
     """Compute returns around an event for each ticker.
 
-    Returns dict: {ticker: {"return_1D": 0.01, ...}}
+    Uses the close price before the event as baseline,
+    then computes forward returns for each window.
     """
     if post_windows is None:
         post_windows = ["1D", "3D", "5D"]
@@ -57,10 +57,7 @@ def compute_event_returns(
             continue
 
         close_col = "close" if "close" in ticker_data.columns else "Close"
-        dates = ticker_data["date"].values
-        closes = ticker_data[close_col].values
 
-        # Find closest price before or on event date
         pre_mask = ticker_data["date"] <= pd.Timestamp(event_date)
         pre_data = ticker_data[pre_mask]
 
@@ -76,7 +73,6 @@ def compute_event_returns(
             days = _TD_LOOKUP.get(pw, 1)
             target_date = pre_date + timedelta(days=days)
 
-            # Find closest price after target
             post_mask = ticker_data["date"] >= target_date
             post_data = ticker_data[post_mask]
 
@@ -119,24 +115,54 @@ def open_event_window(
         return None
 
     close_col = "close" if "close" in window_data.columns else "Close"
+    window_data = window_data.copy()
     window_data["event_time"] = event_time
     window_data["cum_return"] = window_data[close_col] / window_data[close_col].iloc[0] - 1.0
     return window_data
 
 
-# ---------------------------------------------------------------------------
-# Aggregation
-# ---------------------------------------------------------------------------
+def _bootstrap_ci(
+    series: pd.Series, n_bootstrap: int = 10000, ci: float = 0.95
+) -> tuple[float, float, float]:
+    """Bootstrap confidence interval for the mean."""
+    values = series.dropna().values
+    if len(values) < 2:
+        return np.nan, np.nan, np.nan
+    rng = np.random.default_rng(42)
+    boot_means = np.array(
+        [rng.choice(values, size=len(values), replace=True).mean() for _ in range(n_bootstrap)]
+    )
+    alpha = (1.0 - ci) / 2.0
+    lower = float(np.percentile(boot_means, alpha * 100))
+    upper = float(np.percentile(boot_means, (1 - alpha) * 100))
+    return float(boot_means.mean()), lower, upper
+
+
+def _benjamini_hochberg(p_values: np.ndarray) -> np.ndarray:
+    """Benjamini-Hochberg FDR correction for multiple testing."""
+    n = len(p_values)
+    sorted_idx = np.argsort(p_values)
+    sorted_p = p_values[sorted_idx]
+    ranks = np.arange(1, n + 1)
+    bh_thresholds = ranks / n * 0.05
+    rejected = sorted_p <= bh_thresholds
+    if not rejected.any():
+        return np.ones(n)
+    max_rejected = np.where(rejected)[0].max()
+    adjusted = np.ones(n)
+    adjusted[: max_rejected + 1] = sorted_p[: max_rejected + 1] * n / ranks[: max_rejected + 1]
+    adjusted = np.minimum.accumulate(adjusted[::-1])[::-1]
+    unadjusted = np.zeros(n)
+    unadjusted[sorted_idx] = adjusted
+    return np.clip(unadjusted, 0, 1)
 
 
 def aggregate_event_study(
     event_returns: pd.DataFrame,
     group_by: Optional[list[str]] = None,
+    compute_bootstrap: bool = True,
 ) -> pd.DataFrame:
-    """Aggregate event study returns by group.
-
-    Computes mean return, standard error, t-statistic, and hit rate (fraction positive).
-    """
+    """Aggregate event study returns with bootstrap CI and multiple testing correction."""
     if event_returns.empty:
         return pd.DataFrame()
 
@@ -163,21 +189,33 @@ def aggregate_event_study(
             std_ret = vals.std(ddof=1)
             se = std_ret / np.sqrt(len(vals))
             t_stat = mean_ret / se if se != 0 else 0.0
+            p_value = 2.0 * (1.0 - sp_stats.t.cdf(abs(t_stat), df=len(vals) - 1))
             hit_rate = (vals > 0).mean()
 
             row[f"{rc}_mean"] = mean_ret
             row[f"{rc}_se"] = se
             row[f"{rc}_tstat"] = t_stat
+            row[f"{rc}_pvalue"] = p_value
             row[f"{rc}_hit_rate"] = hit_rate
+
+            if compute_bootstrap:
+                _, ci_lo, ci_hi = _bootstrap_ci(vals)
+                row[f"{rc}_ci_lower"] = ci_lo
+                row[f"{rc}_ci_upper"] = ci_hi
 
         results.append(row)
 
-    return pd.DataFrame(results)
+    result_df = pd.DataFrame(results)
 
+    if not result_df.empty and compute_bootstrap:
+        p_cols = [c for c in result_df.columns if c.endswith("_pvalue")]
+        if p_cols:
+            for pc in p_cols:
+                p_vals = result_df[pc].fillna(1.0).values
+                adjusted = _benjamini_hochberg(p_vals)
+                result_df[pc.replace("_pvalue", "_pvalue_bh")] = adjusted
 
-# ---------------------------------------------------------------------------
-# Full pipeline
-# ---------------------------------------------------------------------------
+    return result_df
 
 
 def run_event_studies(
@@ -245,6 +283,7 @@ def save_event_studies(df: pd.DataFrame, config: Optional[EngineConfig] = None) 
     path = cfg.data_dir / cfg.event_studies_file
     cfg.data_dir.mkdir(parents=True, exist_ok=True)
     df.to_parquet(path, index=False)
+    logger.info("Saved %d event study records to %s", len(df), path)
     return path
 
 

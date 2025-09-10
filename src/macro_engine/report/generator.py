@@ -14,8 +14,6 @@ def generate_summary_table(
     config: Optional[EngineConfig] = None,
 ) -> str:
     """Generate a summary table of event studies."""
-    cfg = config or get_settings()
-
     if surprises.empty:
         return "No surprise data available."
 
@@ -37,7 +35,8 @@ def generate_summary_table(
     )
     for _, row in coverage.iterrows():
         lines.append(
-            f"  {row['event_type']:15s}  {int(row['n_events']):4d} events  {int(row['n_markets']):4d} markets"
+            f"  {row['event_type']:15s}  {int(row['n_events']):4d} events  "
+            f"{int(row['n_markets']):4d} markets"
         )
     lines.append("")
 
@@ -50,7 +49,8 @@ def generate_summary_table(
 
         if len(raw) > 0:
             lines.append(
-                f"  {event_type:15s}  Raw: mean={raw.mean():+.4f}  std={raw.std():.4f}  |  Std: mean={std.mean():+.3f}  std={std.std():.3f}  n={len(raw)}"
+                f"  {event_type:15s}  Raw: mean={raw.mean():+.4f}  std={raw.std():.4f}  "
+                f"|  Std: mean={std.mean():+.3f}  std={std.std():.3f}  n={len(raw)}"
             )
     lines.append("")
 
@@ -106,7 +106,6 @@ def generate_event_study_table(
     ]:
         lines.append(f"--- {title} ---")
         if not df.empty:
-            cols = [c for c in df.columns if c != "n_events"]
             lines.append(df.to_string(index=False))
         else:
             lines.append("  (no data)")
@@ -253,11 +252,12 @@ def generate_all_figures(
         # 1. Surprise distribution
         if not surprises.empty and "standardized_surprise" in surprises.columns:
             fig, ax = plt.subplots(figsize=(10, 6))
-            surprises.groupby("event_type")["standardized_surprise"].plot(
-                kind="kde", ax=ax, legend=True
+            agg = surprises.groupby("event_type")["standardized_surprise"].agg(
+                ["mean", "std", "count"]
             )
-            ax.set_title("Distribution of Standardized Surprises by Event Type")
-            ax.set_xlabel("Standardized Surprise")
+            ax.bar(agg.index, agg["mean"], yerr=agg["std"], capsize=5)
+            ax.set_title("Standardized Surprises by Event Type (mean ± std)")
+            ax.set_ylabel("Standardized Surprise")
             path = str(cfg.figures_dir / "surprise_distribution.png")
             fig.savefig(path, dpi=150, bbox_inches="tight")
             plt.close(fig)

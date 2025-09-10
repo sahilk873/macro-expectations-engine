@@ -177,7 +177,6 @@ class MacroRegimeModel:
         """Classify risk regime combining growth, vol, and policy."""
         growth = self._classify_growth(macro)
         vol = self._classify_volatility(price_data, as_of)
-        policy = self._classify_policy(macro)
 
         if growth == "contraction" or vol == "high":
             return "risk_off"

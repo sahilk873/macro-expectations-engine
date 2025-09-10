@@ -177,7 +177,6 @@ def compute_implied_expectations(
         event_id, event_type, market_ticker, snapshot_time, implied_probability,
         implied_mean, implied_std, implied_distribution
     """
-    cfg = config or get_settings()
     records: list[dict] = []
 
     for _, mapping_row in market_mapping.iterrows():

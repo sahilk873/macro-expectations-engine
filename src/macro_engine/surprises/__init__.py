@@ -1,4 +1,4 @@
-"""Macro surprise computation and labeling."""
+"""Macro surprise computation, labeling, and decomposition."""
 
 from macro_engine.surprises.calculator import (
     compute_all_surprises,
@@ -8,6 +8,11 @@ from macro_engine.surprises.calculator import (
     load_surprises,
     save_surprises,
 )
+from macro_engine.surprises.decomposition import (
+    compute_entropy_based_confidence,
+    decompose_all_surprises,
+    decompose_surprise,
+)
 
 __all__ = [
     "compute_raw_surprise",
@@ -16,4 +21,7 @@ __all__ = [
     "label_surprise",
     "save_surprises",
     "load_surprises",
+    "decompose_surprise",
+    "decompose_all_surprises",
+    "compute_entropy_based_confidence",
 ]

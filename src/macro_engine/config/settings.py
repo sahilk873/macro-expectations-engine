@@ -48,8 +48,8 @@ class EngineConfig:
     rebalance_freq: str = "monthly"
 
     # Robustness
-    placebo_n_iterations: int = 50
-    bootstrap_n_iterations: int = 1000
+    placebo_n_iterations: int = 100
+    bootstrap_n_iterations: int = 10000
 
     # Output files
     event_calendar_file: str = "macro_event_calendar.parquet"
