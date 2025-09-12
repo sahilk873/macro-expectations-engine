@@ -241,19 +241,6 @@ make test
 - **Walk-forward backtest** (8 tests): split generation, OOS Sharpe, parameter sensitivity
 - **HMM regime** (16 tests): state ordering, transition matrices, feature scaling, reproducibility
 
-## Key Results
-
-See `reports/tables/` for:
-- Summary statistics (event coverage, surprise distributions)
-- Event study results (by type, direction, qualitative label)
-- Backtest performance (returns, Sharpe, drawdown)
-- Robustness checks (placebo p-values)
-- **Factor model attribution** (surprise alpha net of market/rates/credit/dollar factors)
-- **Microstructure quality** (spreads, arbitrage, depth by event type)
-- **HMM regime transitions** (transition probabilities, state comparisons)
-- **Walk-forward OOS Sharpe** (pooled OOS performance across splits)
-- **Confounding robustness** (confounded vs unconfounded event returns)
-
 ## Project Status
 
 Implemented phases: 1-13 ✓
