@@ -9,7 +9,7 @@ description = "Extract market-implied macro expectations from prediction markets
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}
-authors = [{name = "Quant Research"}]
+authors = [{name = "Sahil Kapadia"}]
 
 dependencies = [
     "numpy>=1.24",

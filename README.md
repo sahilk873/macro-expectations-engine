@@ -1,6 +1,6 @@
 # Market-Implied Macro Engine
 
-A systematic macro research platform that extracts market-implied expectations from prediction markets, compares them to official realized macro outcomes, computes macro surprises, and tests cross-asset reactions and regime-aware allocation strategies.
+A macro research platform that extracts market-implied expectations from prediction markets, compares them to official realized macro outcomes, computes macro surprises, and tests cross-asset reactions and regime-aware allocation strategies.
 
 ## Overview
 

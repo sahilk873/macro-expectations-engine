@@ -72,7 +72,7 @@ def generate_latex_research_report(
     lines.append("")
     lines.append(r"\title{Macro Surprises and Cross-Asset Returns:\\")
     lines.append(r"       Evidence from Prediction Markets}")
-    lines.append(r"\author{Quantitative Research}")
+    lines.append(r"\author{Sahil Kapadia}")
     lines.append(r"\date{\today}")
     lines.append("")
     lines.append(r"\begin{document}")
