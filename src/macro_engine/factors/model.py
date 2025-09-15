@@ -2,11 +2,14 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Optional
 
 import numpy as np
 import pandas as pd
 from scipy import stats as sp_stats
+
+from macro_engine.config.settings import EngineConfig, get_settings
 
 logger = logging.getLogger(__name__)
 
@@ -311,6 +314,23 @@ def compute_cumulative_abnormal_returns(
         results.append(row)
 
     return pd.DataFrame(results)
+
+
+def save_factor_attribution(df: pd.DataFrame, config: Optional[EngineConfig] = None) -> Path:
+    cfg = config or get_settings()
+    path = cfg.data_dir / cfg.factor_attribution_file
+    cfg.data_dir.mkdir(parents=True, exist_ok=True)
+    df.to_parquet(path, index=False)
+    logger.info("Saved %d factor attribution records to %s", len(df), path)
+    return path
+
+
+def load_factor_attribution(config: Optional[EngineConfig] = None) -> pd.DataFrame:
+    cfg = config or get_settings()
+    path = cfg.data_dir / cfg.factor_attribution_file
+    if not path.exists():
+        return pd.DataFrame()
+    return pd.read_parquet(path)
 
 
 def compute_car_test(car_results: pd.DataFrame) -> dict[str, float]:

@@ -7,6 +7,12 @@ from typing import Optional
 import numpy as np
 import pandas as pd
 
+from macro_engine.backtest.signals import (
+    SurpriseSignal,
+    build_surprise_signals,
+    build_surprise_tilts,
+    get_active_signals,
+)
 from macro_engine.config.settings import EngineConfig, get_settings
 
 logger = logging.getLogger(__name__)
@@ -92,18 +98,109 @@ class RegimeAwareStrategy:
         return turnover / 2.0
 
 
+class SurpriseTacticalStrategy(RegimeAwareStrategy):
+    """Two-layer strategy combining regime-aware allocation with surprise-based tactical tilts.
+
+    Layer 1 — Strategic (inherited)
+        Base asset allocation adjusted for the prevailing macro regime
+        (growth, inflation, policy, volatility, and risk dimensions).
+
+    Layer 2 — Tactical
+        On each rebalance date, the strategy checks for recent prediction-market
+        macro surprises.  For each active surprise it computes ticker-level tilts
+        using two sources of information:
+
+        * **Risk-regime tilts** — risk-off / risk-on label from the surprise
+          (e.g., an inflation surprise labelled ``risk_off`` reduces equity
+          exposure and increases safe-haven Treasuries/gold).
+
+        * **Factor-model tilts** — when a :class:`~macro_engine.factors.model.SurpriseFactorModel`
+          attribution table is available, per-ticker tilts are proportional to
+          the product of the surprise's standardized magnitude and the
+          historically estimated factor alpha for that (surprise_type, ticker)
+          pair.  This directly connects the trading logic to the project's
+          core research output: the marginal impact of a macro surprise on
+          each asset, controlling for standard risk factors.
+
+    All tilts are time-decayed (linear decay over ``signal_decay_days``) so
+    that older surprises have less influence.  Confounded surprises (events
+    that co-occur within 24 h of another release) are downweighted by 50 %.
+    """
+
+    def __init__(
+        self,
+        base_weights: Optional[dict[str, float]] = None,
+        transaction_cost_bps: float = 3.0,
+        vol_target: float = 0.12,
+        surprise_tilt_strength: float = 1.0,
+        signal_decay_days: int = 5,
+        min_surprise_confidence: float = 0.3,
+    ):
+        super().__init__(base_weights, transaction_cost_bps, vol_target)
+        self.surprise_tilt_strength = surprise_tilt_strength
+        self.signal_decay_days = signal_decay_days
+        self.min_surprise_confidence = min_surprise_confidence
+
+    def get_weights(
+        self,
+        regime: dict[str, str],
+        active_signals: Optional[list[SurpriseSignal]] = None,
+        factor_attribution: Optional[pd.DataFrame] = None,
+    ) -> dict[str, float]:
+        """Compute target weights combining regime positioning and surprise tilts."""
+        weights = dict(super().get_weights(regime))
+
+        if not active_signals:
+            return weights
+
+        tilts = build_surprise_tilts(
+            active_signals,
+            factor_attribution=factor_attribution,
+            tilt_strength=self.surprise_tilt_strength,
+            min_confidence=self.min_surprise_confidence,
+        )
+
+        for ticker, tilt in tilts.items():
+            weights[ticker] = weights.get(ticker, 0.0) * (1.0 + tilt)
+
+        total = sum(weights.values())
+        if total > 0:
+            weights = {k: v / total for k, v in weights.items()}
+
+        return weights if weights else dict(self.base_weights)
+
+
 def run_backtest(
     price_data: pd.DataFrame,
     regime_classifications: pd.DataFrame,
     strategy: Optional[RegimeAwareStrategy] = None,
     config: Optional[EngineConfig] = None,
+    surprises: Optional[pd.DataFrame] = None,
+    factor_attribution: Optional[pd.DataFrame] = None,
 ) -> pd.DataFrame:
-    """Run a regime-aware ETF allocation backtest with daily P&L tracking."""
+    """Run a regime-aware ETF allocation backtest with daily P&L tracking.
+
+    When *surprises* is provided and *strategy* is a
+    :class:`SurpriseTacticalStrategy`, the backtest will also incorporate
+    tactical tilts from prediction-market macro surprises on each rebalance
+    date, using the factor-model attribution to determine per-asset
+    directional exposures.
+    """
     cfg = config or get_settings()
     strat = strategy or RegimeAwareStrategy(transaction_cost_bps=cfg.transaction_cost_bps)
 
     if price_data.empty or regime_classifications.empty:
         return pd.DataFrame()
+
+    # Pre-build surprise signals if the strategy supports them
+    all_signals: list[SurpriseSignal] = []
+    use_surprise_overlay = (
+        isinstance(strat, SurpriseTacticalStrategy)
+        and surprises is not None
+        and not surprises.empty
+    )
+    if use_surprise_overlay:
+        all_signals = build_surprise_signals(surprises)
 
     prices = price_data.copy()
     prices["date"] = pd.to_datetime(prices["date"])
@@ -136,7 +233,16 @@ def run_backtest(
         if not regime:
             continue
 
-        new_weights = strat.get_weights(regime)
+        if use_surprise_overlay:
+            active_signals = get_active_signals(
+                all_signals,
+                rebal_date.to_pydatetime(),
+                lookback_days=cfg.signal_lookback_days,
+                decay_days=strat.signal_decay_days,
+            )
+            new_weights = strat.get_weights(regime, active_signals, factor_attribution)
+        else:
+            new_weights = strat.get_weights(regime)
 
         if current_weights:
             turnover = strat.compute_turnover(current_weights, new_weights)
@@ -182,6 +288,14 @@ def run_backtest(
             for k, v in regime.items():
                 if k != "date":
                     record[f"regime_{k}"] = v
+
+            if use_surprise_overlay and active_signals:
+                active_etypes = list({s.event_type for s in active_signals})
+                record["active_surprise_types"] = ",".join(sorted(active_etypes))
+                record["n_active_signals"] = len(active_signals)
+                record["avg_signal_decay"] = float(
+                    np.mean([s.effective_weight for s in active_signals])
+                )
 
             records.append(record)
 

@@ -46,6 +46,7 @@ class EngineConfig:
     backtest_end: str = "2025-12-31"
     transaction_cost_bps: float = 3.0
     rebalance_freq: str = "monthly"
+    signal_lookback_days: int = 5
 
     # Robustness
     placebo_n_iterations: int = 100
@@ -68,6 +69,7 @@ class EngineConfig:
     backtest_results_file: str = "backtest_results.parquet"
     placebo_results_file: str = "placebo_results.parquet"
     robustness_results_file: str = "robustness_results.parquet"
+    factor_attribution_file: str = "factor_attribution.parquet"
 
     # Event types we track
     event_types: tuple[str, ...] = (

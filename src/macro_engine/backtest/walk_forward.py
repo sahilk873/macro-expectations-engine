@@ -80,6 +80,8 @@ def run_walk_forward_backtest(
     splits: list[WalkForwardSplit],
     strategy: Optional[RegimeAwareStrategy] = None,
     config: Optional[EngineConfig] = None,
+    surprises: Optional[pd.DataFrame] = None,
+    factor_attribution: Optional[pd.DataFrame] = None,
 ) -> pd.DataFrame:
     """Run walk-forward backtest with expanding windows.
 
@@ -136,6 +138,8 @@ def run_walk_forward_backtest(
             regime_classifications=val_regimes,
             strategy=strat,
             config=cfg,
+            surprises=surprises,
+            factor_attribution=factor_attribution,
         )
 
         if not split_results.empty:
@@ -194,6 +198,8 @@ def compute_parameter_sensitivity(
     param_name: str,
     param_values: list[float],
     config: Optional[EngineConfig] = None,
+    surprises: Optional[pd.DataFrame] = None,
+    factor_attribution: Optional[pd.DataFrame] = None,
 ) -> list[ParameterPerturbation]:
     """Compute sensitivity of Sharpe ratio to strategy parameter perturbations.
 
@@ -203,7 +209,9 @@ def compute_parameter_sensitivity(
     cfg = config or get_settings()
     results: list[ParameterPerturbation] = []
 
-    base_results = run_backtest(price_data, regime_classifications, base_strategy, cfg)
+    base_results = run_backtest(
+        price_data, regime_classifications, base_strategy, cfg, surprises, factor_attribution
+    )
     base_metrics = compute_performance_metrics(base_results) if not base_results.empty else {}
     base_sharpe = base_metrics.get("sharpe_ratio", 0.0)
 
@@ -222,7 +230,9 @@ def compute_parameter_sensitivity(
             logger.warning("Unknown parameter: %s", param_name)
             continue
 
-        pert_results = run_backtest(price_data, regime_classifications, perturbed_strat, cfg)
+        pert_results = run_backtest(
+            price_data, regime_classifications, perturbed_strat, cfg, surprises, factor_attribution
+        )
         pert_metrics = compute_performance_metrics(pert_results) if not pert_results.empty else {}
         pert_sharpe = pert_metrics.get("sharpe_ratio", 0.0)
 
